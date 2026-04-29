@@ -53,7 +53,11 @@ fun MainScreen(dashboardViewModel: DashboardViewModel) {
                 })
             ) {
                 TransactionsScreen() { transaction ->
-                    navController.navigate("upsert_transaction?transactionId=${transaction.id}")
+                    transaction?.let {
+                        navController.navigate("upsert_transaction?transactionId=${transaction.id}")
+                    }?: run{
+                        navController.navigate("upsert_transaction")
+                    }
                 }
             }
 
