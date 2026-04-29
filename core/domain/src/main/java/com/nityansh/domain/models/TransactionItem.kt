@@ -11,5 +11,5 @@ data class TransactionItem(
     val categoryId: Int
 ) {
 
-    val formattedDate = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date)
+    val formattedDate: String? = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault()).format(date)
 }

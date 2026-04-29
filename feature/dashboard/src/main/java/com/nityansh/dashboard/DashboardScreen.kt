@@ -1,22 +1,15 @@
 package com.nityansh.dashboard
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -37,47 +30,29 @@ fun DashboardScreen(
     onViewTransactions: (CategoryItem) -> Unit
 ) {
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
-    ) {
-        TotalExpenses(viewModel.totalExpense)
-
-        CategoryList(modifier = Modifier.weight(1f), viewModel = viewModel, onViewTransactions)
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+    Box {
+        Column(
+            modifier = Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            Spacer(modifier = Modifier.weight(1f))
-            AddCategoryButton(onClick = onAddCategoryClick)
-            Spacer(modifier = Modifier.weight(1f))
-            AddTransactionButton(onClick = onAddTransactionClick)
-        }
-    }
-}
+            TotalExpenses(viewModel.totalExpense)
 
-@Composable
-fun AddCategoryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
-    OutlinedButton(
-        modifier = modifier.wrapContentWidth(),
-        onClick = {
-            onClick.invoke()
-        },
-        colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.primary),
-    ) {
-        Text(
-            modifier = Modifier.background(MaterialTheme.colorScheme.primary),
-            text = "Add Category"
+            CategoryList(modifier = Modifier.weight(1f), viewModel = viewModel, onViewTransactions)
+        }
+
+        AddCategoryButton(
+            modifier = Modifier
+                .padding(16.dp)
+                .align(Alignment.BottomEnd),
+            onClick = onAddCategoryClick
         )
     }
 }
 
 @Composable
-fun AddTransactionButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
+fun AddCategoryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
     FloatingActionButton(
-        modifier = modifier.wrapContentWidth().padding(end = 16.dp),
+        modifier = modifier.wrapContentWidth(),
         onClick = {
             onClick.invoke()
         },
@@ -94,6 +69,9 @@ fun AddTransactionButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 @Preview
 @Composable
 fun DashboardScreenPreview() {
-    DashboardScreen(viewModel = viewModel<DashboardViewModel>(), onAddCategoryClick = {}, onAddTransactionClick = {},
+    DashboardScreen(
+        viewModel = viewModel<DashboardViewModel>(),
+        onAddCategoryClick = {},
+        onAddTransactionClick = {},
         onViewTransactions = {})
 }
