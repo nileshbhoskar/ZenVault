@@ -4,7 +4,6 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -23,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import com.nityansh.dashboard.intent.CategoryIntent
 import com.nityansh.dashboard.viewmodel.DashboardViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -31,7 +31,7 @@ fun AddCategoryDialog(dashboardViewModel: DashboardViewModel) {
 
     BasicAlertDialog(
         onDismissRequest = {
-            dashboardViewModel.showAddCategoryDialog = false
+            dashboardViewModel.handleCancelButtonClick()
         }
     ) {
         Card(
@@ -62,14 +62,14 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
 
         OutlinedTextField(
             modifier = Modifier.padding(bottom = 4.dp),
-            value = dashboardViewModel.newCategoryName,
+            value = dashboardViewModel.addCategoryState.categoryName,
             onValueChange = {
-                dashboardViewModel.newCategoryName = it
-                dashboardViewModel.categoryNameError = false
+                dashboardViewModel.setCategoryName(it)
+                dashboardViewModel.setCategoryNameErrorState(false)
             },
             label = { Text("Category Name") }
         )
-        if (dashboardViewModel.categoryNameError) {
+        if (dashboardViewModel.addCategoryState.showCategoryNameError) {
             Text(
                 text = "Enter valid category name",
                 color = Color.Red,
@@ -89,8 +89,8 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = dashboardViewModel.selectedOption == "Enabled",
-                    onClick = { dashboardViewModel.selectedOption = "Enabled" }
+                    selected = dashboardViewModel.addCategoryState.isEnabled ?: false,
+                    onClick = { dashboardViewModel.setCategoryStatus("Enabled") }
                 )
                 Text(text = "Enabled", modifier = Modifier.padding(start = 8.dp), maxLines = 1)
             }
@@ -103,16 +103,16 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 RadioButton(
-                    selected = dashboardViewModel.selectedOption == "Disabled",
-                    onClick = { dashboardViewModel.selectedOption = "Disabled" }
+                    selected = dashboardViewModel.addCategoryState.isEnabled?.not() ?: false,
+                    onClick = { dashboardViewModel.setCategoryStatus("Disabled") }
                 )
                 Text(text = "Disabled", modifier = Modifier.padding(start = 8.dp), maxLines = 1)
             }
         }
 
-        if (dashboardViewModel.categoryStatusError) {
+        if (dashboardViewModel.addCategoryState.showCategoryStatusError) {
             Text(
-                text = "Select category status",
+                text = dashboardViewModel.addCategoryState.categoryNameError,
                 color = Color.Red,
                 modifier = Modifier.padding(bottom = 8.dp)
             )
@@ -125,7 +125,7 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
         ) {
             OutlinedButton(
                 onClick = {
-                    dashboardViewModel.addCategory()
+                    dashboardViewModel.handleActions(CategoryIntent.AddCategory(categoryName = dashboardViewModel.addCategoryState.categoryName, isEnabled = dashboardViewModel.addCategoryState.isEnabled))
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {
@@ -134,7 +134,7 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
 
             OutlinedButton(
                 onClick = {
-                    dashboardViewModel.addCategoryDialogClosed()
+                    dashboardViewModel.handleCancelButtonClick()
                 },
                 modifier = Modifier.padding(top = 16.dp)
             ) {

@@ -82,8 +82,6 @@ class TransactionViewModel @Inject constructor(
                         transactionDate = sdf.format(transactionDateInMilli)
 
                         amount = transaction.amount.toString()
-//                        selectedCategoryName = categories.value.firstOrNull { it.id == transaction.categoryId }?.name
-//                        selectedCategory = categories.value.firstOrNull { it.id == transaction.categoryId }
                     }
                 }
             }

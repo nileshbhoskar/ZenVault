@@ -28,14 +28,12 @@ fun MainScreen(dashboardViewModel: DashboardViewModel) {
         ) {
             composable("dashboard") {
                 DashboardScreen(dashboardViewModel, {
-                    navController.navigate("upsert_transaction")
+                    dashboardViewModel.handlePlusButtonClick()
                 }, {
-                    dashboardViewModel.showAddCategoryDialog = true
-                }, onViewTransactions = {
                     navController.navigate("transaction/${it.id}/${it.name}")
                 })
 
-                if (dashboardViewModel.showAddCategoryDialog) {
+                if (dashboardViewModel.categoryUiState.isAddDialogVisible) {
                     AddCategoryDialog(dashboardViewModel)
                 }
             }

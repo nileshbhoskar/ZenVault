@@ -10,12 +10,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.nityansh.dashboard.viewmodel.DashboardViewModel
 import com.nityansh.domain.models.CategoryItem
-import kotlinx.coroutines.launch
 
 @Composable
 fun CategoryList(modifier: Modifier = Modifier, viewModel: DashboardViewModel, onViewTransactions: (CategoryItem) -> Unit) {
@@ -23,7 +21,8 @@ fun CategoryList(modifier: Modifier = Modifier, viewModel: DashboardViewModel, o
         viewModel.loadTotalExpense()
     }
 
-    val categories by viewModel.categoriesState.collectAsState()
+    val categories by viewModel.categoryUiState.categories.collectAsState()
+
     if (categories.isNotEmpty()) {
         LazyColumn(
             modifier = modifier.fillMaxWidth(),
