@@ -41,7 +41,6 @@ fun TransactionsScreen(
 
     Box {
         Column {
-
             Text(
                 text = transactionViewModel.receivedCategoryName ?: "Transactions",
                 color = Color.Black,
