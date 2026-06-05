@@ -12,10 +12,10 @@ import kotlinx.coroutines.flow.Flow
 interface CategoryDao {
 
     @Upsert
-    fun upsertCategory(category: CategoryEntity)
+    fun upsertCategory(category: CategoryEntity): Long
 
     @Insert
-    fun addCategory(category: CategoryEntity)
+    fun addCategory(category: CategoryEntity): Long
 
     @Query("SELECT * FROM category")
     fun getAllCategories(): Flow<List<CategoryEntity>>
@@ -24,8 +24,8 @@ interface CategoryDao {
     fun getCategoryById(id: Int): CategoryEntity?
 
     @Delete
-    fun deleteCategory(category: CategoryEntity)
+    fun deleteCategory(category: CategoryEntity): Int
 
     @Query("Delete FROM category where id = :id")
-    fun deleteCategoryById(id: Int)
+    fun deleteCategoryById(id: Int): Int
 }

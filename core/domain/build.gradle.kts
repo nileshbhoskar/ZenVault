@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.ksp)
+    jacoco
 }
 
 android {
@@ -23,6 +24,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            debug {
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = true
+            }
         }
     }
     compileOptions {
@@ -41,6 +46,16 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     testImplementation(libs.junit)
+    // Standard MockK dependency for local unit tests
+    testImplementation(libs.mockk) // Use the latest stable version
+
+    // You'll also want the Kotlin coroutines test library for suspend functions
+    testImplementation(libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+}
+
+//apply(from = "${rootProject.projectDir}/jacoco.gradle.kts")
+jacoco {
+    toolVersion = "0.8.12"
 }

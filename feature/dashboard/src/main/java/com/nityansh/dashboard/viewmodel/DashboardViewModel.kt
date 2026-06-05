@@ -18,7 +18,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    val categoryUseCase: CategoryOperationsUsecase, val totalExpenseUseCase: TotalExpenseUseCase
+    val categoryUseCase: CategoryOperationsUsecase,
+    val totalExpenseUseCase: TotalExpenseUseCase
 ) : ViewModel() {
 
     //    var categoriesState by mutableStateOf(listOf<CategoryItem>())

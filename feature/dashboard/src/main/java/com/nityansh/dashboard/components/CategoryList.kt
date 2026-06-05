@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nityansh.dashboard.viewmodel.DashboardViewModel
 import com.nityansh.domain.models.CategoryItem
 import kotlinx.coroutines.launch
@@ -23,7 +24,7 @@ fun CategoryList(modifier: Modifier = Modifier, viewModel: DashboardViewModel, o
         viewModel.loadTotalExpense()
     }
 
-    val categories by viewModel.categoriesState.collectAsState()
+    val categories by viewModel.categoriesState.collectAsStateWithLifecycle()
     if (categories.isNotEmpty()) {
         LazyColumn(
             modifier = modifier.fillMaxWidth(),

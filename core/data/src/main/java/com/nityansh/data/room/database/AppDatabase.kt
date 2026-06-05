@@ -11,7 +11,7 @@ import com.nityansh.data.room.entity.ExpenseEntity
 @Database(entities = [ExpenseEntity::class, CategoryEntity::class], version = 1, exportSchema = false)
 abstract class AppDatabase: RoomDatabase() {
 
-    abstract fun expenseDao(): TransactionDao
+    abstract fun transactionDao(): TransactionDao
 
     abstract fun categoryDao(): CategoryDao
 }

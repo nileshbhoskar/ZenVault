@@ -12,7 +12,7 @@ import kotlinx.coroutines.flow.Flow
 interface TransactionDao {
 
     @Upsert
-    fun upsertExpense(expense: ExpenseEntity)
+    fun upsertExpense(expense: ExpenseEntity): Long
 
     @Query("SELECT * FROM expense")
     fun getAllExpenses(): Flow<List<ExpenseEntity>>
@@ -33,8 +33,8 @@ interface TransactionDao {
     fun getExpenseById(id: Int): ExpenseEntity?
 
     @Delete
-    fun deleteExpense(expense: ExpenseEntity)
+    fun deleteExpense(expense: ExpenseEntity): Int
 
     @Query("Delete FROM expense where id = :id")
-    fun deleteExpenseById(id: Int)
+    fun deleteExpenseById(id: Int): Int
 }

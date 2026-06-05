@@ -59,8 +59,8 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override suspend fun addTransaction(transaction: TransactionItem) {
-        transactionDao.upsertExpense(
+    override suspend fun addTransaction(transaction: TransactionItem): Long {
+        return transactionDao.upsertExpense(
             com.nityansh.data.room.entity.ExpenseEntity(
                 id = transaction.id,
                 categoryId = transaction.categoryId,
@@ -71,8 +71,8 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override suspend fun updateTransaction(transaction: TransactionItem) {
-        transactionDao.upsertExpense(
+    override suspend fun updateTransaction(transaction: TransactionItem): Long {
+        return transactionDao.upsertExpense(
             com.nityansh.data.room.entity.ExpenseEntity(
                 id = transaction.id,
                 categoryId = transaction.categoryId,
@@ -83,8 +83,8 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override fun deleteTransaction(transactionId: Int) {
-        transactionDao.deleteExpenseById(transactionId)
+    override fun deleteTransaction(transactionId: Int): Int {
+        return transactionDao.deleteExpenseById(transactionId)
     }
 
     override suspend fun getTotalAmount(): Flow<Double> {

@@ -5,13 +5,10 @@ import androidx.room.Room
 import com.nityansh.data.room.dao.CategoryDao
 import com.nityansh.data.room.dao.TransactionDao
 import com.nityansh.data.room.database.AppDatabase
-import com.nityansh.data.room.repository.CategoryRepositoryImpl
-import com.nityansh.data.room.repository.TransactionRepositoryImpl
-import com.nityansh.domain.repository.CategoryRepository
-import com.nityansh.domain.repository.TransactionRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -52,7 +49,7 @@ object RepositoryModule {
     @Provides
     @Singleton
     fun provideTransactionDao(database: AppDatabase): TransactionDao {
-        return database.expenseDao()
+        return database.transactionDao()
     }
 
     @Provides

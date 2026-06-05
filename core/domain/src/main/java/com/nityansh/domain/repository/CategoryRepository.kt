@@ -7,9 +7,9 @@ interface CategoryRepository {
 
     fun getAllCategories(): Flow<List<CategoryItem>>
 
-    suspend fun addCategory(category: CategoryItem)
+    suspend fun addCategory(category: CategoryItem): Long
 
-    suspend fun updateCategory(category: CategoryItem)
+    suspend fun updateCategory(category: CategoryItem): Long
 
     suspend fun getCategoryWiseTotalAmount(): Flow<Map<CategoryItem, Double>>
 }

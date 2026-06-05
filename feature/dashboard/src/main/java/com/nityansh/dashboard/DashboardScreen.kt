@@ -14,6 +14,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.semantics.contentDescription
+import androidx.compose.ui.semantics.heading
+import androidx.compose.ui.semantics.role
+import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.semantics.stateDescription
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
@@ -43,8 +49,13 @@ fun DashboardScreen(
         AddCategoryButton(
             modifier = Modifier
                 .padding(16.dp)
-                .align(Alignment.BottomEnd),
-            onClick = onAddCategoryClick
+                .align(Alignment.BottomEnd)
+                .semantics {
+                    contentDescription = "Add Category Button"
+                    role = Role.Button
+                    heading()
+                },
+            onClick = onAddCategoryClick,
         )
     }
 }

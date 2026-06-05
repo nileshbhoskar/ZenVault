@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.hilt)
     alias(libs.plugins.ksp)
 //    alias(libs.plugins.kotlin.android)
+    jacoco
 }
 
 android {
@@ -25,6 +26,10 @@ android {
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+            debug {
+                enableUnitTestCoverage = true
+                enableAndroidTestCoverage = true
+            }
         }
     }
     compileOptions {
@@ -53,12 +58,19 @@ dependencies {
 
     api(project(":core:domain"))
 
-
     testImplementation(libs.junit)
+    testImplementation(libs.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
+    androidTestImplementation(libs.mockk.android)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test.junit4)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.test.manifest)
+}
+
+//apply(from = "${rootProject.projectDir}/jacoco.gradle.kts")
+jacoco {
+    toolVersion = "0.8.12"
 }
