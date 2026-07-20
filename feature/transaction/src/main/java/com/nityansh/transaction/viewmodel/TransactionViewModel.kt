@@ -69,22 +69,20 @@ class TransactionViewModel @Inject constructor(
 
     init {
         if (transactionId != null && transactionId != -1) {
-            viewModelScope.launch(Dispatchers.IO) {
+            viewModelScope.launch {
                 val result = transactionUseCase.getTransactionById(transactionId)
                 result.let { transaction ->
-                    withContext(Dispatchers.Main) {
-                        Log.d("TransactionViewModel", "amount: $selectedTransaction")
-                        selectedTransaction = transaction
-                        description = transaction.description
-                        transactionDateInMilli = transaction.date
+                    Log.d("TransactionViewModel", "amount: $selectedTransaction")
+                    selectedTransaction = transaction
+                    description = transaction.description
+                    transactionDateInMilli = transaction.date
 
-                        val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
-                        transactionDate = sdf.format(transactionDateInMilli)
+                    val sdf = SimpleDateFormat("dd-MM-yyyy", Locale.getDefault())
+                    transactionDate = sdf.format(transactionDateInMilli)
 
-                        amount = transaction.amount.toString()
+                    amount = transaction.amount.toString()
 //                        selectedCategoryName = categories.value.firstOrNull { it.id == transaction.categoryId }?.name
 //                        selectedCategory = categories.value.firstOrNull { it.id == transaction.categoryId }
-                    }
                 }
             }
         }
@@ -120,7 +118,7 @@ class TransactionViewModel @Inject constructor(
             date = transactionDateInMilli,
             description = description
         )
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
             if (transactionId == null) {
                 transactionUseCase.addTransaction(transactionItem)
             } else {
@@ -143,7 +141,7 @@ class TransactionViewModel @Inject constructor(
     }
 
     fun removeTransaction(transactionId: Int) {
-        viewModelScope.launch(Dispatchers.Default) {
+        viewModelScope.launch {
             transactionUseCase.deleteTransaction(transactionId)
         }
     }

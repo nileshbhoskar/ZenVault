@@ -3,8 +3,10 @@ package com.nityansh.data.room.repository
 import com.nityansh.data.room.dao.TransactionDao
 import com.nityansh.domain.models.TransactionItem
 import com.nityansh.domain.repository.TransactionRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class TransactionRepositoryImpl @Inject constructor(val transactionDao: TransactionDao): TransactionRepository {
@@ -48,9 +50,9 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
             )
         }
     }
-    override fun getTransactionById(transactionId: Int): TransactionItem {
+    override suspend fun getTransactionById(transactionId: Int): TransactionItem = withContext(Dispatchers.IO) {
         val expense = transactionDao.getExpensesById(transactionId)
-        return TransactionItem(
+        return@withContext TransactionItem(
             id = expense.id,
             categoryId = expense.categoryId,
             amount = expense.amount,
@@ -59,8 +61,8 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override suspend fun addTransaction(transaction: TransactionItem): Long {
-        return transactionDao.upsertExpense(
+    override suspend fun addTransaction(transaction: TransactionItem): Long = withContext(Dispatchers.IO) {
+        return@withContext transactionDao.upsertExpense(
             com.nityansh.data.room.entity.ExpenseEntity(
                 id = transaction.id,
                 categoryId = transaction.categoryId,
@@ -71,8 +73,8 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override suspend fun updateTransaction(transaction: TransactionItem): Long {
-        return transactionDao.upsertExpense(
+    override suspend fun updateTransaction(transaction: TransactionItem): Long = withContext(Dispatchers.IO) {
+        return@withContext transactionDao.upsertExpense(
             com.nityansh.data.room.entity.ExpenseEntity(
                 id = transaction.id,
                 categoryId = transaction.categoryId,
@@ -83,18 +85,18 @@ class TransactionRepositoryImpl @Inject constructor(val transactionDao: Transact
         )
     }
 
-    override fun deleteTransaction(transactionId: Int): Int {
-        return transactionDao.deleteExpenseById(transactionId)
+    override suspend fun deleteTransaction(transactionId: Int): Int  = withContext(Dispatchers.IO) {
+        return@withContext transactionDao.deleteExpenseById(transactionId)
     }
 
-    override suspend fun getTotalAmount(): Flow<Double> {
-        return transactionDao.getAllExpenses().map { transactionEntities ->
+    override suspend fun getTotalAmount(): Flow<Double> = withContext(Dispatchers.IO){
+        return@withContext transactionDao.getAllExpenses().map { transactionEntities ->
             transactionEntities.sumOf { it.amount }
         }
     }
 
-    override suspend fun getPerCategoryTotalAmount(): Flow<Map<Int, Double>> {
-        return transactionDao.getAllExpenses().map { transactionEntities ->
+    override suspend fun getPerCategoryTotalAmount(): Flow<Map<Int, Double>> = withContext(Dispatchers.IO) {
+        return@withContext transactionDao.getAllExpenses().map { transactionEntities ->
             transactionEntities.groupBy { it.categoryId }.mapValues { entry ->
                 entry.value.sumOf { it.amount }
             }

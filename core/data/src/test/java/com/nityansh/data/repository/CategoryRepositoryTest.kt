@@ -11,10 +11,12 @@ import com.nityansh.domain.models.CategoryItem
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
+import kotlinx.coroutines.test.TestScope
+import kotlinx.coroutines.test.UnconfinedTestDispatcher
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.assertEquals
-import org.junit.Assert.assertTrue
 import org.junit.Test
 
 class CategoryRepositoryTest {
@@ -22,9 +24,12 @@ class CategoryRepositoryTest {
     private val categoryDao: CategoryDao = mockk()
     private val transactionDao: TransactionDao = mockk(relaxed = true)
     private val repository = CategoryRepositoryImpl(categoryDao, transactionDao)
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private val dispatcher = UnconfinedTestDispatcher()
+    private val scope = TestScope(dispatcher)
 
     @Test
-    fun `verify add category`() = runTest {
+    fun `verify add category`() = scope.runTest {
         val category = CategoryItem(id = 1, name = "Food", enabled = true, totalAmount = 0.0)
 
         coEvery{ repository.addCategory(category) } returns 0L
@@ -33,7 +38,7 @@ class CategoryRepositoryTest {
     }
 
     @Test
-    fun `verify update category`() = runTest{
+    fun `verify update category`() = scope.runTest{
         val category = CategoryItem(id = 1, name = "Food", enabled = true, totalAmount = 0.0)
         coEvery{ repository.updateCategory(category) } returns 0L
         val result = repository.updateCategory(category)

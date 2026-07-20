@@ -5,6 +5,7 @@ import com.nityansh.data.room.dao.TransactionDao
 import com.nityansh.data.room.entity.CategoryEntity
 import com.nityansh.domain.models.CategoryItem
 import com.nityansh.domain.repository.CategoryRepository
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
@@ -12,6 +13,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.zip
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class CategoryRepositoryImpl @Inject constructor(
@@ -34,16 +36,16 @@ class CategoryRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun addCategory(category: CategoryItem): Long {
-        return categoryDao.addCategory(
+    override suspend fun addCategory(category: CategoryItem): Long = withContext(Dispatchers.IO) {
+        return@withContext categoryDao.addCategory(
             CategoryEntity(
                 id = category.id, name = category.name, enabled = category.enabled
             )
         )
     }
 
-    override suspend fun updateCategory(category: CategoryItem): Long {
-        return categoryDao.upsertCategory(
+    override suspend fun updateCategory(category: CategoryItem): Long = withContext(Dispatchers.IO) {
+        return@withContext categoryDao.upsertCategory(
             CategoryEntity(
                 id = category.id, name = category.name, enabled = category.enabled
             )

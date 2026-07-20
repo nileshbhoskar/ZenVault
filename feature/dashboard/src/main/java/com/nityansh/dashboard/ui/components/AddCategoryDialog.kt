@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material3.BasicAlertDialog
 import androidx.compose.material3.Card
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -25,6 +26,7 @@ import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.role
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.nityansh.dashboard.viewmodel.DashboardViewModel
@@ -76,7 +78,11 @@ fun AddCategoryContent(dashboardViewModel: DashboardViewModel) {
                 dashboardViewModel.newCategoryName = it
                 dashboardViewModel.categoryNameError = false
             },
-            label = { Text("Category Name") })
+            label = { Text("Category Name") },
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Words
+            )
+        )
         if (dashboardViewModel.categoryNameError) {
             Text(
                 text = "Enter valid category name",

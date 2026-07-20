@@ -31,6 +31,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -65,7 +66,10 @@ fun UpdateInsertTransactionScreen(
                 .fillMaxWidth()
                 .wrapContentHeight(),
             singleLine = true,
-            isError = viewModel.descriptionError
+            isError = viewModel.descriptionError,
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences
+            )
         )
         if (viewModel.descriptionError) {
             Text(text = "Enter valid description", color = MaterialTheme.colorScheme.error)
@@ -93,6 +97,9 @@ fun UpdateInsertTransactionScreen(
                         }))
             },
             isError = viewModel.dateError,
+            keyboardOptions = KeyboardOptions(
+                capitalization = KeyboardCapitalization.Sentences
+            )
         )
         if (viewModel.dateError) {
             Text(text = "Enter valid date", color = MaterialTheme.colorScheme.error)

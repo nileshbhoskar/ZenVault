@@ -11,7 +11,7 @@ class TransactionOperationsUseCase @Inject constructor(val transactionRepository
     fun getAllTransactionList(categoryId: Int) =
         transactionRepository.getAllTransactions(categoryId)
 
-    fun getTransactionById(transactionId: Int) =
+    suspend fun getTransactionById(transactionId: Int) =
         transactionRepository.getTransactionById(transactionId)
 
     fun getTransactionByIdWithFlow(transactionId: Int) =
@@ -23,6 +23,6 @@ class TransactionOperationsUseCase @Inject constructor(val transactionRepository
     suspend fun updateTransaction(transactionItem: TransactionItem) =
         transactionRepository.updateTransaction(transactionItem)
 
-    fun deleteTransaction(transactionId: Int) =
+    suspend fun deleteTransaction(transactionId: Int) =
         transactionRepository.deleteTransaction(transactionId)
 }
