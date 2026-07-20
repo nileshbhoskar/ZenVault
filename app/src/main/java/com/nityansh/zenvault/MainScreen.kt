@@ -4,6 +4,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -20,6 +21,9 @@ import com.nityansh.transaction.ui.screens.UpdateInsertTransactionScreen
 fun MainScreen(dashboardViewModel: DashboardViewModel) {
 
     val navController = rememberNavController()
+    LaunchedEffect(dashboardViewModel) {
+        dashboardViewModel.loadTotalExpense()
+    }
     Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
         NavHost(
             navController = navController,
@@ -27,7 +31,7 @@ fun MainScreen(dashboardViewModel: DashboardViewModel) {
             modifier = Modifier.padding(innerPadding)
         ) {
             composable("dashboard") {
-                DashboardScreen(dashboardViewModel, {
+                DashboardScreen(dashboardViewModel, dashboardViewModel.totalExpense, onAddTransactionClick = {
                     navController.navigate("upsert_transaction")
                 }, {
                     dashboardViewModel.showAddCategoryDialog = true

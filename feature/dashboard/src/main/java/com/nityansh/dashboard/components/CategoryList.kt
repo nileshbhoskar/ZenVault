@@ -12,6 +12,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.nityansh.dashboard.viewmodel.DashboardViewModel
@@ -20,21 +21,18 @@ import kotlinx.coroutines.launch
 
 @Composable
 fun CategoryList(modifier: Modifier = Modifier, viewModel: DashboardViewModel, onViewTransactions: (CategoryItem) -> Unit) {
-    LaunchedEffect(viewModel) {
-        viewModel.loadTotalExpense()
-    }
 
     val categories by viewModel.categoriesState.collectAsStateWithLifecycle()
     if (categories.isNotEmpty()) {
         LazyColumn(
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier.testTag("category_lazy_column").fillMaxWidth(),
             contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             content = {
                 items(categories.size) { index ->
                     val categoryItem = categories[index]
                     Category(
-                        modifier = Modifier.fillMaxWidth(),
+                        modifier = Modifier.testTag("list_item").fillMaxWidth(),
                         categoryItem = categoryItem,
                         onViewTransactions = onViewTransactions
                     )

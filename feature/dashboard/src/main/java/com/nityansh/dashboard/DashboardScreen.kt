@@ -31,6 +31,7 @@ import com.nityansh.domain.models.CategoryItem
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
+    totalExpense: String,
     onAddTransactionClick: () -> Unit,
     onAddCategoryClick: () -> Unit,
     onViewTransactions: (CategoryItem) -> Unit
@@ -41,7 +42,7 @@ fun DashboardScreen(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            TotalExpenses(viewModel.totalExpense)
+            TotalExpenses(totalExpense)
 
             CategoryList(modifier = Modifier.weight(1f), viewModel = viewModel, onViewTransactions)
         }
@@ -82,6 +83,7 @@ fun AddCategoryButton(modifier: Modifier = Modifier, onClick: () -> Unit) {
 fun DashboardScreenPreview() {
     DashboardScreen(
         viewModel = viewModel<DashboardViewModel>(),
+        totalExpense = "200",
         onAddCategoryClick = {},
         onAddTransactionClick = {},
         onViewTransactions = {})
